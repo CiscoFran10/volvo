@@ -4,7 +4,7 @@ import cars from "@/data/cars.json";
 export default function Home() {
 	if (cars)
 		return (
-			<main className="flex items-center justify-center m-4">
+			<main className="flex items-center justify-center p-4 w-full min-h-screen overflow-hidden">
 				<CarList data={cars} />
 			</main>
 		);
