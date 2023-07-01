@@ -1,4 +1,3 @@
-import React from "react";
 import { Car } from "@/interfaces";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,13 +18,7 @@ const Card = ({ id, bodyType, imageUrl, modelName, modelType }: Car) => {
 				</p>
 			</div>
 
-			<Image
-				className="w-full h-full object-cover"
-				width={280}
-				height={280}
-				src={imageUrl}
-				alt={modelName}
-			/>
+			<Image width={300} height={300} src={imageUrl} alt={modelName} />
 
 			<div className="flex items-center justify-center gap-7 mt-8">
 				<Link
