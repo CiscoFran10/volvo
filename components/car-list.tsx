@@ -1,5 +1,3 @@
-"use client";
-
 import { Car } from "@/interfaces";
 import React from "react";
 import Card from "./card";
@@ -7,10 +5,14 @@ import Image from "next/image";
 import SliderIndicator from "./slider-indicator";
 import useMedia from "@/hooks/useMedia";
 
-const CarList = ({ data }: { data: Car[] }) => {
-	const isMobile = useMedia("(max-width: 768px)");
+interface CarListProps {
+	data: Car[];
+	searchValue: string;
+}
 
+const CarList = ({ data, searchValue }: CarListProps) => {
 	const sliderRef: React.RefObject<HTMLUListElement> = React.useRef(null);
+	const isMobile = useMedia("(max-width: 768px)");
 
 	const handleNext = () => {
 		if (sliderRef.current) sliderRef.current.scrollLeft += 600;
@@ -20,16 +22,26 @@ const CarList = ({ data }: { data: Car[] }) => {
 		if (sliderRef.current) sliderRef.current.scrollLeft -= 600;
 	};
 
+	const filteredData = data.filter((item) =>
+		item.bodyType.toLowerCase().includes(searchValue.toLowerCase())
+	);
+
 	return (
-		<div className="w-full sm:max-w-7xl overflow-hidden">
-			<ul
-				ref={sliderRef}
-				className="flex items-center gap-6 overflow-auto [&::-webkit-scrollbar]:hidden transition-all duration-300 scroll-smooth snap-x snap-mandatory"
-			>
-				{data.map((car) => (
-					<Card key={car.id} {...car} />
-				))}
-			</ul>
+		<div className="w-full overflow-hidden">
+			{filteredData.length === 0 ? (
+				<p className="flex justify-center items-center min-h-[405px] md:min-h-[375px]">
+					Nenhum modelo encontrado.
+				</p>
+			) : (
+				<ul
+					ref={sliderRef}
+					className="flex gap-6 overflow-auto [&::-webkit-scrollbar]:hidden transition-all duration-300 scroll-smooth snap-x snap-mandatory md:snap-none h-fit"
+				>
+					{filteredData.map((car) => (
+						<Card key={car.id} {...car} />
+					))}
+				</ul>
+			)}
 
 			{!isMobile ? (
 				<div className="flex gap-2 items-center justify-end mt-10 p-2">
@@ -62,7 +74,7 @@ const CarList = ({ data }: { data: Car[] }) => {
 					</button>
 				</div>
 			) : (
-				<SliderIndicator data={data} sliderRef={sliderRef} />
+				<SliderIndicator data={filteredData} sliderRef={sliderRef} />
 			)}
 		</div>
 	);

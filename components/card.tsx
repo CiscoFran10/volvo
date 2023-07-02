@@ -4,12 +4,12 @@ import Link from "next/link";
 
 const Card = ({ id, bodyType, imageUrl, modelName, modelType }: Car) => {
 	return (
-		<li className="flex flex-col gap-1 shrink-0 snap-start">
+		<li className="flex flex-col gap-1 shrink-0 snap-start md:snap-none">
 			<h3 className="text-xs font-bold uppercase text-secondary-foreground">
 				{bodyType}
 			</h3>
 
-			<div className="flex items-center gap-1 mb-3">
+			<div className="flex md:flex-row flex-col md:items-center gap-1 mb-3">
 				<h2 className="text-base font-bold text-primary-foreground">
 					{modelName}
 				</h2>
@@ -18,7 +18,13 @@ const Card = ({ id, bodyType, imageUrl, modelName, modelType }: Car) => {
 				</p>
 			</div>
 
-			<Image width={300} height={300} src={imageUrl} alt={modelName} />
+			<Image
+				className="w-[320px] h-[255px] object-cover"
+				width={300}
+				height={300}
+				src={imageUrl}
+				alt={modelName}
+			/>
 
 			<div className="flex items-center justify-center gap-7 mt-8">
 				<Link
